@@ -1,0 +1,5 @@
+# Sound files are downloaded/added by user, not committed
+sounds/*.mp3
+sounds/*.wav
+sounds/*.ogg
+!sounds/.gitkeep
