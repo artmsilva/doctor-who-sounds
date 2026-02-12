@@ -1,0 +1,10 @@
+{
+  "name": "doctor-who-sounds",
+  "version": "1.0.0",
+  "description": "Doctor Who sound effects for Claude Code session events",
+  "author": {
+    "name": "asilva"
+  },
+  "license": "MIT",
+  "keywords": ["sounds", "doctor-who", "notifications"]
+}
