@@ -1,0 +1,11 @@
+{
+  "active_pack": "new-who",
+  "volume": 0.5,
+  "enabled": true,
+  "categories": {
+    "greeting": true,
+    "acknowledge": true,
+    "complete": true,
+    "alert": true
+  }
+}

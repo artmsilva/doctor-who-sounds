@@ -1,0 +1,10 @@
+{
+  "name": "New Who",
+  "description": "Modern Doctor Who (2005+) sound effects",
+  "sounds": {
+    "greeting": ["tardis-materialize.mp3"],
+    "acknowledge": ["sonic-screwdriver.mp3"],
+    "complete": ["tardis-dematerialize.mp3", "allons-y.mp3", "fantastic.mp3"],
+    "alert": ["exterminate.mp3", "delete.mp3", "you-will-be-upgraded.mp3"]
+  }
+}
