@@ -10,7 +10,7 @@ This Claude Code plugin plays Doctor Who sound effects in response to session ev
 
 ```bash
 # Clone the repo
-git clone git@github.com:anthropics/doctor-who-sounds.git
+git clone git@github.com:asilva/doctor-who-sounds.git
 
 # (Optional) Run setup to validate sound files
 ./setup.sh
@@ -26,7 +26,7 @@ claude /install /path/to/doctor-who-sounds
 | Session Start | `greeting` | TARDIS materialization |
 | Prompt Submit | `acknowledge` | Sonic screwdriver |
 | Task Complete | `complete` | TARDIS dematerialization, "Allons-y!", "Fantastic!" |
-| Notification | `alert` | "EXTERMINATE!", "DELETE!", "You will be upgraded" |
+| Notification | `alert` | "EXTERMINATE!", "DELETE!" |
 
 ## Configuration
 
@@ -110,7 +110,7 @@ Need sound files? These sites offer free sound effects:
 - [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/) -- classic BBC archive sounds
 - [Orange Free Sounds](https://orangefreesounds.com/) -- free sound clips and effects
 
-> **Note:** Sound files are not included in this repo. You'll need to source your own `.mp3` files and place them in the `sounds/` directory.
+> **Tip:** Run `./setup.sh` after cloning to check which sounds are present and get guidance on sourcing missing ones.
 
 ## License
 
