@@ -1,0 +1,19 @@
+{
+  "name": "doctor-who-sounds",
+  "owner": {
+    "name": "asilva"
+  },
+  "metadata": {
+    "description": "Doctor Who sound effects for Claude Code session events",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "doctor-who-sounds",
+      "source": "./",
+      "description": "Play Doctor Who sound effects on session events - TARDIS materialization on start, sonic screwdriver on prompt, Dalek screams on alerts",
+      "category": "fun",
+      "tags": ["sounds", "doctor-who", "notifications", "fun"]
+    }
+  ]
+}

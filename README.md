@@ -6,18 +6,17 @@
 
 This Claude Code plugin plays Doctor Who sound effects in response to session events. Hear the TARDIS materialize when you start a session, a sonic screwdriver buzz when you submit a prompt, a triumphant quote when a task completes, and a Dalek scream when a notification fires. Sounds are chosen randomly from the active pack to keep things fresh, with repeat avoidance so you won't hear the same clip twice in a row.
 
-## Quick Install
+## Install
 
 ```bash
-# Clone the repo
-git clone git@github.com:asilva/doctor-who-sounds.git
+# Add the marketplace
+/plugin marketplace add asilva/doctor-who-sounds
 
-# (Optional) Run setup to validate sound files
-./setup.sh
-
-# Install the plugin in Claude Code
-claude /install /path/to/doctor-who-sounds
+# Install the plugin
+/plugin install doctor-who-sounds@doctor-who-sounds
 ```
+
+Sound files are included -- it works out of the box on macOS. Restart Claude Code after installing.
 
 ## Event Mapping
 
@@ -102,15 +101,24 @@ Set `"active_pack": "classic-who"` in `config.json` to switch packs.
 
 The plugin auto-detects the first available player. No extra dependencies are needed on macOS.
 
+## Troubleshooting
+
+**Sounds not playing?**
+- Restart Claude Code after installing the plugin
+- Check `config.json` has `"enabled": true`
+- Run `./setup.sh` to validate sound files and audio player
+
+**Wrong sounds?**
+- Check `packs/new-who/manifest.json` for the category-to-file mapping
+- Verify the sound files exist in `sounds/`
+
 ## Sound Sources
 
-Need sound files? These sites offer free sound effects:
+Need more sound files? These sites offer free sound effects:
 
 - [Pixabay](https://pixabay.com/sound-effects/) -- free sound effects, no attribution required
 - [BBC Sound Effects](https://sound-effects.bbcrewind.co.uk/) -- classic BBC archive sounds
 - [Orange Free Sounds](https://orangefreesounds.com/) -- free sound clips and effects
-
-> **Tip:** Run `./setup.sh` after cloning to check which sounds are present and get guidance on sourcing missing ones.
 
 ## License
 

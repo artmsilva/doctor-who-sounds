@@ -6,5 +6,5 @@
     "name": "asilva"
   },
   "license": "MIT",
-  "keywords": ["sounds", "doctor-who", "notifications"]
+  "hooks": "./hooks/hooks.json"
 }
