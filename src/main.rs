@@ -13,30 +13,22 @@ fn main() {
     }
 
     // 2. Fork: parent exits immediately, child does the work
-    //    This mirrors bash's (subshell) & pattern
     unsafe {
         let pid = libc::fork();
-        if pid < 0 {
-            return; // fork failed, exit silently
+        if pid != 0 {
+            return; // parent (pid > 0) or error (pid < 0): exit now
         }
-        if pid > 0 {
-            return; // parent — exit now, Claude Code is unblocked
-        }
-        // child continues below
-        libc::setsid(); // detach from parent's session
+        libc::setsid();
     }
 
-    // --- Everything below runs in the child process ---
-    // Errors exit silently — never leave zombies or error output
+    // --- Child process only ---
     let _ = play_sound(&input);
 }
 
 fn play_sound(input: &str) -> Option<()> {
-    // Parse hook event name
     let json: Value = serde_json::from_str(input).ok()?;
     let event = json.get("hook_event_name")?.as_str()?;
 
-    // Map event to category
     let category = match event {
         "SessionStart" => "greeting",
         "UserPromptSubmit" => "acknowledge",
@@ -45,11 +37,9 @@ fn play_sound(input: &str) -> Option<()> {
         _ => return Some(()),
     };
 
-    // Resolve plugin root
     let plugin_root = env::var("CLAUDE_PLUGIN_ROOT").ok().unwrap_or_else(|| {
-        let exe_path = env::current_exe().unwrap_or_default();
-        exe_path
-            .parent()
+        let exe = env::current_exe().unwrap_or_default();
+        exe.parent()
             .and_then(|p| p.parent())
             .map(|p| p.to_string_lossy().into_owned())
             .unwrap_or_else(|| ".".to_string())
@@ -58,7 +48,6 @@ fn play_sound(input: &str) -> Option<()> {
     let state_dir = "/tmp/doctor-who-sounds";
     fs::create_dir_all(state_dir).ok()?;
 
-    // Read config
     let config_path = format!("{}/config.json", plugin_root);
     let config_str = fs::read_to_string(&config_path).ok()?;
     let config: Value = serde_json::from_str(&config_str).ok()?;
@@ -83,7 +72,6 @@ fn play_sound(input: &str) -> Option<()> {
         .and_then(|v| v.as_str())
         .unwrap_or("new-who");
 
-    // Read pack manifest
     let manifest_path = format!("{}/packs/{}/manifest.json", plugin_root, active_pack);
     let manifest_str = fs::read_to_string(&manifest_path).ok()?;
     let manifest: Value = serde_json::from_str(&manifest_str).ok()?;
@@ -93,7 +81,6 @@ fn play_sound(input: &str) -> Option<()> {
         return Some(());
     }
 
-    // Random selection with repeat avoidance
     let last_file = format!("{}/last_{}", state_dir, category);
     let last_played = fs::read_to_string(&last_file).unwrap_or_default();
     let last_played = last_played.trim();
@@ -128,24 +115,23 @@ fn play_sound(input: &str) -> Option<()> {
 
     let _ = fs::write(&last_file, sound_file);
 
-    // Detect audio player (with cache)
     let player_cache = format!("{}/player", state_dir);
-    let player = if let Ok(cached) = fs::read_to_string(&player_cache) {
-        let cached = cached.trim().to_string();
-        if !cached.is_empty() && player_exists(&cached) {
-            cached
-        } else {
-            detect_and_cache_player(&player_cache)
+    let player = match fs::read_to_string(&player_cache) {
+        Ok(cached) => {
+            let cached = cached.trim().to_string();
+            if !cached.is_empty() && player_exists(&cached) {
+                cached
+            } else {
+                detect_and_cache_player(&player_cache)
+            }
         }
-    } else {
-        detect_and_cache_player(&player_cache)
+        Err(_) => detect_and_cache_player(&player_cache),
     };
 
     if player.is_empty() {
         return Some(());
     }
 
-    // Build and exec the player (replaces this child process entirely)
     let mut cmd = Command::new(&player);
     match player.as_str() {
         "afplay" => {
