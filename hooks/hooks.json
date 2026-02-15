@@ -7,7 +7,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/play-sound.sh",
+            "command": "${CLAUDE_PLUGIN_ROOT}/bin/play-sound",
             "timeout": 10
           }
         ]
@@ -19,7 +19,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/play-sound.sh",
+            "command": "${CLAUDE_PLUGIN_ROOT}/bin/play-sound",
             "timeout": 10
           }
         ]
@@ -31,7 +31,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/play-sound.sh",
+            "command": "${CLAUDE_PLUGIN_ROOT}/bin/play-sound",
             "timeout": 10
           }
         ]
@@ -43,7 +43,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/scripts/play-sound.sh",
+            "command": "${CLAUDE_PLUGIN_ROOT}/bin/play-sound",
             "timeout": 10
           }
         ]

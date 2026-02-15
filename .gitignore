@@ -3,3 +3,6 @@
 
 # Temp state
 /tmp/
+
+# Rust build artifacts
+/target/
