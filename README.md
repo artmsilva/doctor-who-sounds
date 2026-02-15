@@ -16,7 +16,7 @@ This Claude Code plugin plays Doctor Who sound effects in response to session ev
 /plugin install doctor-who-sounds@doctor-who-sounds
 ```
 
-Sound files are included -- it works out of the box on macOS. Restart Claude Code after installing.
+Sound files and a pre-built binary are included -- it works out of the box on macOS. Restart Claude Code after installing.
 
 ## Event Mapping
 
@@ -101,12 +101,41 @@ Set `"active_pack": "classic-who"` in `config.json` to switch packs.
 
 The plugin auto-detects the first available player. No extra dependencies are needed on macOS.
 
+## How It Works
+
+The plugin uses a daemon architecture for minimal latency (~3-4ms per hook event):
+
+1. Claude Code fires a hook event and invokes `bin/play-sound`
+2. The binary connects to a background daemon via Unix domain socket
+3. If no daemon is running, the client auto-spawns one
+4. The daemon plays the sound; the client exits immediately
+
+The daemon stays alive across all hook events, eliminating process startup overhead. If the daemon is unreachable, the client falls back to direct playback.
+
+```bash
+# Manual daemon management (usually not needed -- auto-spawns on first event)
+make daemon-status    # Check if daemon is running
+make daemon-stop      # Stop the daemon
+make daemon-restart   # Restart the daemon
+```
+
+## Building from Source
+
+The pre-built binary in `bin/` works on macOS (arm64). To rebuild:
+
+```bash
+# Requires Rust toolchain
+make install    # cargo build --release + copy to bin/
+```
+
 ## Troubleshooting
 
 **Sounds not playing?**
 - Restart Claude Code after installing the plugin
 - Check `config.json` has `"enabled": true`
 - Run `./setup.sh` to validate sound files and audio player
+- Check daemon status: `make daemon-status`
+- Restart the daemon: `make daemon-restart`
 
 **Wrong sounds?**
 - Check `packs/new-who/manifest.json` for the category-to-file mapping
